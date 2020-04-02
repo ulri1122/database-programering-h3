@@ -1,16 +1,12 @@
 <?php
 include_once "sqldb.php";
-
 class backend extends DbConn{
-
     function getTasks($id){
-
         $statement = $this->conn->prepare('SELECT * FROM task where project_id = :id');
         $statement->execute(array(":id"=> $id));
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
         return json_encode($results,true);
     }
-
     function getProjects(){
         $statement = $this->conn->prepare('SELECT * FROM project');
         $statement->execute();
