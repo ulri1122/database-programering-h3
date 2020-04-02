@@ -12,7 +12,7 @@ if($_GET['cmd'] == "create_proj"){
     $data = $backend->getProjects();
     print_R($data);
 }else if($_GET['cmd'] == "create_task"){
-    $result = $backend->create_task($_POST['task_name'],$_POST['proj_id']);
+    $result = $backend->create_task($_POST['task_name'],$_POST['proj_id'],$_POST['startTime'],$_POST['stopTime']);
 }else if($_GET['cmd'] == "get_task"){
     $result = $backend->getTasks($_POST['id']);
 }else if($_GET['cmd'] == "get_user"){
@@ -40,7 +40,7 @@ if($_GET['cmd'] == "create_proj"){
     $result = $backend->showCurrentUserTasks($_POST['user_id']);
 }else if($_GET['cmd'] == "edit_task"){
     print_R($_POST);
-    $result = $backend->editTask($_POST['id'],$_POST['task_name']);
+    $result = $backend->editTask($_POST['id'],$_POST['task_name'],$_POST['startTime'],$_POST['stopTime'] );
 }
 
 

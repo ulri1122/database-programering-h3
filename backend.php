@@ -20,11 +20,10 @@ class backend extends DbConn{
         $data = $this->conn->lastInsertId();
         return json_encode($data,true);
     }
-    function create_task($task_name,$proj_id){
+    function create_task($task_name,$proj_id, $startTime, $stopTime){
 
-
-        $statement = $this->conn->prepare("INSERT INTO task set task_name =:task_name, project_id = :proj_id");
-        $statement->execute(array(":task_name"=> $task_name, ":proj_id"=> $proj_id));
+        $statement = $this->conn->prepare("INSERT INTO task set task_name =:task_name, project_id = :proj_id, fromm = :startTime, too = :stopTime");
+        $statement->execute(array(":task_name"=> $task_name, ":proj_id"=> $proj_id, ":stopTime" => $stopTime, ":startTime" => $startTime));
         $data = $this->conn->lastInsertId();
         return json_encode($data,true);
     }
@@ -106,9 +105,9 @@ class backend extends DbConn{
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
         return json_encode($results,true);
     } 
-    function editTask($task_id, $task_name) {
+    function editTask($task_id, $task_name, $startTime,$stopTime) {
         print_R($task_id.$task_name);
-        $statement = $this->conn->prepare("UPDATE task set task_name = :task_name where id = :task_id");
-        $statement->execute(array( ":task_name" => $task_name, ":task_id" => $task_id));
+        $statement = $this->conn->prepare("UPDATE task set task_name = :task_name, fromm = :startTime, too = :stopTime where id = :task_id");
+        $statement->execute(array( ":task_name" => $task_name, ":task_id" => $task_id , ":stopTime" => $stopTime, ":startTime" => $startTime));
     } 
 }

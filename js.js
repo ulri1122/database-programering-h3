@@ -3,7 +3,7 @@
 function deleteTask(task_id) {
     console.log(task_id);
     $.post( "handler.php?cmd=delete_task",{"task_id" : task_id}, function( data ) {
-        $('#task'+task_id).parent().toggle();
+        $('#task'+task_id).parent().parent().remove();
     })
 }
 
@@ -23,7 +23,7 @@ function openProj(proj_id){
         var data = JSON.parse(data);
         $.each(data, function(val, text) {
             $('#dd_task').append(
-                '<li><input type ="button" class = "btn btn-primary task_btn " onclick = "openTask('+text.id+')" id ="task'+text.id+'" value ='+text.task_name+'><input type="button" onclick = "deleteTask('+text.id+')" value ="X" class ="btn btn-warning"/></li>'
+                '<tr><th><input type ="button" class = "btn btn-primary task_btn " onclick = "openTask('+text.id+')" id ="task'+text.id+'" value ='+text.task_name+'></th><th>'+text.fromm+ ' - '+text.too+'</th><th><input type="button" onclick = "deleteTask('+text.id+')" value ="X" class ="btn btn-warning"/></th> </tr>'
             );
         })
         $('.create_task').attr('id', proj_id)
@@ -41,7 +41,7 @@ function openTask(task_id){
         console.log(data);
         $.each(data, function(val, text) {
             $('#dd_user').append(
-                '<li><input type ="button" class = "btn btn-primary task_btn " id ="user'+text.id+'" value ='+text.name+'><input type="button"  id ="'+text.id+'" value ="X" class =" user_delete btn btn-warning"/></li>'
+                '<tr><th><input type ="button" class = "btn btn-primary task_btn " id ="user'+text.id+'" value ='+text.name+'></th><th><input type="button"  id ="'+text.id+'" value ="X" class =" user_delete btn btn-warning"/></th></tr>'
             );
         })
         $(".user_delete").click(function(){
@@ -74,7 +74,7 @@ $(function(){
         console.log(data);
         $.each(data, function(val, text) {
             mySelect.append(
-                '<li id = deleteProj_'+text.id+'><input type ="button"  class = "btn btn-primary" onclick = openProj('+text.id+') value ='+text['proj_name']+' ><input type="button" onclick = "deleteProj('+text.id+')" value ="X" class ="btn btn-warning"/></li>'
+                '<tr id = deleteProj_'+text.id+'><th><input type ="button"  class = "btn btn-primary" onclick = openProj('+text.id+') value ='+text['proj_name']+' ></th><th><input type="button" onclick = "deleteProj('+text.id+')" value ="X" class ="btn btn-warning"/></th></tr>'
             );
         });
     });
@@ -85,7 +85,7 @@ $(function(){
             console.log(data);
             var data = JSON.parse(data);
             $('#dd_project').append(
-                '<li deleteProj_'+text.id+' ><input type ="button" class = "btn btn-primary " value ='+text+' onclick = openProj('+data[0]+') ><input type="button" onclick = "deleteProj('+data+')" value ="X" class ="btn btn-warning"/></li>'
+                '<tr deleteProj_'+text.id+' ><th><input type ="button" class = "btn btn-primary " value ='+text+' onclick = openProj('+data[0]+') ></th><th><input type="button" onclick = "deleteProj('+data+')" value ="X" class ="btn btn-warning"/></th></tr>'
             );
         });
     });
@@ -97,13 +97,15 @@ $(function(){
 
     $(".create_task").click(function(){
         text = $("#task_name").val();
-  
-        $.post( "handler.php?cmd=create_task",{"proj_id":this.id,"task_name" : text}, function( data ) {
+        startTime = $(this).prev().prev().val()
+        stopTime = $(this).prev().val()
+        console.log(startTime+stopTime);
+        $.post( "handler.php?cmd=create_task",{"proj_id":this.id,"task_name" : text,"startTime":startTime,"stopTime":stopTime}, function( data ) {
             var data = JSON.parse(data);
             console.log(data);
 
             $('#dd_task').append(
-                '<li><input type ="button" class = "btn btn-primary " onclick = "openTask('+data+')" id ='+data+' value ='+text+' ><input type="button" onclick = "deleteTask('+data+')" value ="X" class ="btn btn-warning"/></li>'
+                '<tr><th><input type ="button" class = "btn btn-primary " onclick = "openTask('+data+')" id ='+data+' value ='+text+' ></th><th><input type="button" onclick = "deleteTask('+data+')" value ="X" class ="btn btn-warning"/><th><th><p>'+startTime+ '</p></th> <th> <p>'+stopTime+'</p></th></tr>'
             );
         });
     });
@@ -143,14 +145,16 @@ $(function(){
             $('#task_modal').modal('show');
             $.each(data, function(val, text) {
                 mySelect.append(
-                    '<li> <input type ="text" id = task_'+text.id+' value ="'+text.task_name+'"><button class ="task_edit">edit</button></li>'
+                    '<tr> <th><input type ="text" id = task_'+text.id+' value ="'+text.task_name+'"></th><th><input type="date" value ="'+text.fromm.substring(0,10)+ '"> </th><th><input type="date"value ="'+text.too.substring(0,10) +'"></th><th><button class ="task_edit">edit</button></th></tr>'
                 );
             });
             
             $('.task_edit').click(function () {
-                task_name = $(this).prev().val()
-                task_id = $(this).prev().attr('id').substring(5)
-                $.post( "handler.php?cmd=edit_task", {"id" : task_id, "task_name" : task_name }, function( data ) {
+                task_name = $(this).prev().prev().prev().val()
+                task_id = $(this).prev().prev().prev().attr('id').substring(5)
+                startTime =$(this).prev().prev().val()
+                stopTime = $(this).prev().val()
+                $.post( "handler.php?cmd=edit_task", {"id" : task_id, "task_name" : task_name , "startTime":startTime,"stopTime":stopTime }, function( data ) {
                 console.log(data)    
                 })
             })
@@ -166,7 +170,7 @@ function showallusers(data) {
     var data = JSON.parse(data);
     $.each(data, function(val, text) {
         $('#edit_users').append(
-            '<li><input type ="text" value ='+text.name+' class ="user_id_'+text.id+'"><button class = "update_user btn btn-warning ">update</button><button class = "delete_user btn btn-danger">X</button><button class = "btn btn-primery current_tasks">current taskes</button></li>'
+            '<li><th><input type ="text" value ='+text.name+' class ="user_id_'+text.id+'"></th><th><button class = "update_user btn btn-warning ">update</button></th><th><button class = "delete_user btn btn-danger">X</button></th><th><button class = "btn btn-primery current_tasks">current taskes</button></th></li>'
         );
     })
     $('.delete_user').click(function(){

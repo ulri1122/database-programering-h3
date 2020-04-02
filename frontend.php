@@ -32,15 +32,20 @@
     </head>
     
     <body>
-    <div>
-        <span style ="width:300px; float:left;">    
+    <div class ="container">
+      <div  class = "col-sm" style="">
+        <button type="button" class="btn btn-primary" id ="user_btn" >
+            tilføj bruger
+          </button>
+          </div>
+        <div class ="col-sm" style ="">    
             <h1>projects</h1>
             <input style ="display:inline;" id="proj_name"/>
             <input type="button" value ="opret" id ="create_proj">
-            <ul id ="dd_project">
-            </ul>
-        </span>
-        <span style ="width:600px; float:left;">
+            <table id ="dd_project">
+            </table>
+        </div>
+        <div class = "col-sm" style ="">
 
 
         <h1>tasks</h1>
@@ -49,11 +54,10 @@
         <input id = "stop-date" type = "date">  
         <input type="button" value ="opret" class ="create_task">
         <button type="button" class="btn btn-primary" id ="task_modal_btn" >tilføj bruger</button>
-        <ul id ="dd_task">
-        </ul>
-      
-        </span>
-        <span style ="width:600px; float:left;">
+        <table id ="dd_task">
+        </table>
+        </div>
+        <div class ="col-sm" style ="">
             <input type="hidden" class ="task_id_hidden">
             
 
@@ -64,13 +68,15 @@
             <ul id ="dd_user">
             </ul>
           
-            </span>
+      </div>
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" id ="user_btn" >
-    tilføj bruger
-  </button>
-  
+
+
+</div>
+</body>
+</html>
+
   <!-- Modal -->
   <div class="modal fade" id="user_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -88,14 +94,13 @@
 
             <hr> 
             <h5>delete/edit user</h5>
-            <ul id ="edit_users">
-            </ul>
+            <table id ="edit_users">
+            </table>
                
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
@@ -112,15 +117,12 @@
         </div>
         <div class="modal-body">
             <h5>tasks</h5>
-            <ul id ="task_list">
-            </ul>
+            <table id ="task_list">
+            </table>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
   </div>
-    </body>
-</html>
