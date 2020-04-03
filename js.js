@@ -21,15 +21,50 @@ function openProj(proj_id){
     
     $.post( "handler.php?cmd=get_task",{"id" : proj_id}, function( data ) {
         var data = JSON.parse(data);
+        var dataset =[]; 
+        var value =[];
         $.each(data, function(val, text) {
             $('#dd_task').append(
                 '<tr><th><input type ="button" class = "btn btn-primary task_btn " onclick = "openTask('+text.id+')" id ="task'+text.id+'" value ='+text.task_name+'></th><th>'+text.fromm+ ' - '+text.too+'</th><th><input type="button" onclick = "deleteTask('+text.id+')" value ="X" class ="btn btn-warning"/></th> </tr>'
             );
+            value.push({
+                from: text.fromm,
+                to: text.too,
+                label: text.task_name,
+                customClass: "ganttRed"
+            })
+
+            dataset.push ({
+                name: text.task_name,
+                desc: " ",
+                values:value
+            })
+         
+            value = [];
+
         })
+
+       
+
+        console.log(dataset);
+        gantt_diagram(dataset)
         $('.create_task').attr('id', proj_id)
     });
     
 }
+
+
+function gantt_diagram(dataset){
+
+    $(".gantt").gantt({
+        source: dataset,
+        scale: "days",
+        minScale: "days",
+        navigate: "scroll"
+    });
+
+}
+
 
 function openTask(task_id){
     console.log(task_id); 
@@ -65,7 +100,10 @@ function openTask(task_id){
         $('.create_task').attr('id', task_id)
     });
 }
+
 $(function(){
+
+
     var mySelect = $('#dd_project');
     $.post( "handler.php?cmd=get_proj", function( data ) {
 
@@ -160,7 +198,7 @@ $(function(){
             })
         });
     })
-
+    
     
 
 })

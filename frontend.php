@@ -8,12 +8,19 @@
     <head>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
         <!-- jQuery library -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        
+
+        
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
         <!-- Latest compiled JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+        <link href="style.css" type="text/css" rel="stylesheet">
+        <script src="jquery.fn.gantt.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+      
         <meta charset="UTF-8">
         <title>title</title>
         <style> 
@@ -33,19 +40,23 @@
     
     <body>
     <div class ="container">
-      <div  class = "col-sm" style="">
+      <div  class = "col-sm" >
         <button type="button" class="btn btn-primary" id ="user_btn" >
             tilføj bruger
           </button>
           </div>
-        <div class ="col-sm" style ="">    
+        <div class ="col-sm" >    
             <h1>projects</h1>
             <input style ="display:inline;" id="proj_name"/>
             <input type="button" value ="opret" id ="create_proj">
             <table id ="dd_project">
             </table>
         </div>
-        <div class = "col-sm" style ="">
+
+        
+
+
+        <div class = "col-sm" >
 
 
         <h1>tasks</h1>
@@ -57,7 +68,7 @@
         <table id ="dd_task">
         </table>
         </div>
-        <div class ="col-sm" style ="">
+        <div class ="col-sm" >
             <input type="hidden" class ="task_id_hidden">
             
 
@@ -74,6 +85,7 @@
 
 
 </div>
+<div class="gantt"></div>
 </body>
 </html>
 
